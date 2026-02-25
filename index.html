@@ -41,7 +41,7 @@ button:hover {
 
 <div id="start">
     <p>这个测试将帮助你识别当前显化过程中最核心的阻力。</p>
-    <button onclick="startTest()">开始测试</button>
+    <button onclick="generateResult()">查看结果</button>
 </div>
 
 <div id="quiz" class="hidden">
@@ -148,6 +148,57 @@ function showResult() {
 }
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script>
+function generateResult() {
+
+  const scores = [
+    Math.floor(Math.random() * 100),
+    Math.floor(Math.random() * 100),
+    Math.floor(Math.random() * 100),
+    Math.floor(Math.random() * 100),
+    Math.floor(Math.random() * 100),
+    Math.floor(Math.random() * 100)
+  ];
+
+  document.getElementById("result").innerHTML = `
+    <h2>你的显化阻力雷达图</h2>
+    <canvas id="radarChart" width="400" height="400"></canvas>
+    <p style="margin-top:20px;">
+    你真正的阻力不是“能力不够”，而是某些信念层面的迟疑。<br>
+    当你开始看见它，你已经在松动它。
+    </p>
+  `;
+
+  const ctx = document.getElementById('radarChart');
+
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: [
+        '信念稳定度',
+        '行动一致性',
+        '自我价值感',
+        '结果掌控欲',
+        '潜意识抗拒',
+        '情绪持续力'
+      ],
+      datasets: [{
+        label: '显化阻力指数',
+        data: scores
+      }]
+    },
+    options: {
+      scales: {
+        r: {
+          beginAtZero: true,
+          max: 100
+        }
+      }
+    }
+  });
+}
+</script>
 </body>
 </html>
