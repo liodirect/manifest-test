@@ -41,7 +41,7 @@ button:hover {
 
 <div id="start">
     <p>这个测试将帮助你识别当前显化过程中最核心的阻力。</p>
-    <button onclick="generateResult()">查看结果</button>
+    <button onclick="startTest()">开始测试</button>
 </div>
 
 <div id="quiz" class="hidden">
@@ -145,60 +145,49 @@ function showResult() {
 
     document.getElementById("resultTitle").innerText = results[maxType].title;
     document.getElementById("resultText").innerText = results[maxType].text;
-}
+// 创建雷达图canvas
+const canvas = document.createElement("canvas");
+canvas.id = "radarChart";
+canvas.style.marginTop = "30px";
+document.getElementById("result").appendChild(canvas);
 
-</script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+// 根据得分生成雷达数据
+const ctx = canvas.getContext("2d");
 
-<script>
-function generateResult() {
-
-  const scores = [
-    Math.floor(Math.random() * 100),
-    Math.floor(Math.random() * 100),
-    Math.floor(Math.random() * 100),
-    Math.floor(Math.random() * 100),
-    Math.floor(Math.random() * 100),
-    Math.floor(Math.random() * 100)
-  ];
-
-  document.getElementById("result").innerHTML = `
-    <h2>你的显化阻力雷达图</h2>
-    <canvas id="radarChart" width="400" height="400"></canvas>
-    <p style="margin-top:20px;">
-    你真正的阻力不是“能力不够”，而是某些信念层面的迟疑。<br>
-    当你开始看见它，你已经在松动它。
-    </p>
-  `;
-
-  const ctx = document.getElementById('radarChart');
-
-  new Chart(ctx, {
+new Chart(ctx, {
     type: 'radar',
     data: {
-      labels: [
-        '信念稳定度',
-        '行动一致性',
-        '自我价值感',
-        '结果掌控欲',
-        '潜意识抗拒',
-        '情绪持续力'
-      ],
-      datasets: [{
-        label: '显化阻力指数',
-        data: scores
-      }]
+        labels: [
+            '信念稳定度',
+            '焦虑波动',
+            '行动对齐度',
+            '身份认同稳定度'
+        ],
+        datasets: [{
+            label: '显化阻力指数',
+            data: [
+                scores.belief * 40,
+                scores.anxiety * 40,
+                scores.action * 40,
+                scores.identity * 40
+            ]
+        }]
     },
     options: {
-      scales: {
-        r: {
-          beginAtZero: true,
-          max: 100
+        responsive: true,
+        scales: {
+            r: {
+                min: 0,
+                max: 100
+            }
         }
-      }
     }
-  });
+});
 }
+
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </body>
 </html>
