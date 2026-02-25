@@ -125,26 +125,41 @@ function showResult() {
     );
 
     const results = {
-        belief: {
-            title: "信念未认领型",
-            text: "你在显化中最大的卡点是信念松动。你想要，但没有真正认领。"
-        },
-        anxiety: {
-            title: "焦虑拉扯型",
-            text: "你过度关注结果，焦虑强化了缺失感。"
-        },
-        action: {
-            title: "行动错位型",
-            text: "你相信显化，但行动尚未完全对齐。"
-        },
-        identity: {
-            title: "潜意识回避型",
-            text: "你在靠近升级时产生潜意识抗拒。"
-        }
-    };
+    belief: {
+        title: "信念未认领型",
+        core: "你想要结果，但内在没有真正“认领”它。你更像是在试试看，而不是已经决定。",
+        mistake: "显化不是许愿，而是站位。如果你还在犹豫，你的行动就会替你犹豫。",
+        action: "连续7天写下：'我已经是能拥有这件事的人。' 并每天做一个微小但具体的现实动作去靠近它。"
+    },
+    anxiety: {
+        title: "焦虑拉扯型",
+        core: "你太在意结果是否发生，反而放大了“还没有”的感受。",
+        mistake: "当注意力长期停留在缺失感，潜意识会默认你仍处于匮乏状态。",
+        action: "每天固定10分钟，只允许自己想象成功后的稳定状态，而不是成功瞬间。训练稳定感，而非高潮感。"
+    },
+    action: {
+        title: "行动错位型",
+        core: "你相信显化，但现实行动与目标还没有完全对齐。",
+        mistake: "显化不是只靠内在感受，它需要现实动作作为确认信号。",
+        action: "列出一个你拖延的关键动作，48小时内完成它。哪怕完成60%。"
+    },
+    identity: {
+        title: "潜意识回避型",
+        core: "当你真的接近升级时，潜意识开始自我保护。",
+        mistake: "你并不是做不到，而是担心承担更大的责任或曝光。",
+        action: "写下：'如果这件事真的成功，我最害怕的是什么？' 然后逐条拆解它。"
+    }
+};
 
     document.getElementById("resultTitle").innerText = results[maxType].title;
-    document.getElementById("resultText").innerText = results[maxType].text;
+
+document.getElementById("resultText").innerHTML = `
+<p><strong>核心阻力：</strong><br>${results[maxType].core}</p>
+<br>
+<p><strong>显化误区：</strong><br>${results[maxType].mistake}</p>
+<br>
+<p><strong>专属行动建议：</strong><br>${results[maxType].action}</p>
+`;
 // 创建雷达图canvas
 const canvas = document.createElement("canvas");
 canvas.id = "radarChart";
