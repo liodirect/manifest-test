@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>显化卡点测试</title>
+<style>
+body {
+    font-family: "PingFang SC", sans-serif;
+    background: #f6f4f1;
+    text-align: center;
+    padding: 30px;
+}
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+button {
+    display: block;
+    margin: 10px auto;
+    padding: 12px 20px;
+    border: none;
+    background: #6b5b95;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+button:hover {
+    opacity: 0.8;
+}
+.hidden {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 id="title">你的显化卡点是什么？</h1>
+
+<div id="start">
+    <p>这个测试将帮助你识别当前显化过程中最核心的阻力。</p>
+    <button onclick="startTest()">开始测试</button>
+</div>
+
+<div id="quiz" class="hidden">
+    <h2 id="question"></h2>
+    <div id="options"></div>
+</div>
+
+<div id="result" class="hidden">
+    <h2 id="resultTitle"></h2>
+    <p id="resultText"></p>
+</div>
+
+</div>
+
+<script>
+
+const questions = [
+{
+    q: "当你想到自己想要的目标时，你的第一反应是？",
+    options: [
+        { text: "希望能成，但也不确定", type: "belief" },
+        { text: "有点焦虑，怕落空", type: "anxiety" },
+        { text: "我会想很多准备步骤", type: "action" },
+        { text: "我会怀疑自己是否能承受", type: "identity" }
+    ]
+},
+{
+    q: "当机会出现时，你通常会？",
+    options: [
+        { text: "犹豫一下再说", type: "belief" },
+        { text: "担心是不是陷阱", type: "anxiety" },
+        { text: "继续准备还不够好", type: "action" },
+        { text: "担心改变后的压力", type: "identity" }
+    ]
+}
+];
+
+let current = 0;
+let scores = {
+    belief: 0,
+    anxiety: 0,
+    action: 0,
+    identity: 0
+};
+
+function startTest() {
+    document.getElementById("start").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
+    showQuestion();
+}
+
+function showQuestion() {
+    const q = questions[current];
+    document.getElementById("question").innerText = q.q;
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+    q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.innerText = option.text;
+        btn.onclick = () => selectOption(option.type);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function selectOption(type) {
+    scores[type]++;
+    current++;
+    if (current < questions.length) {
+        showQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    const maxType = Object.keys(scores).reduce((a, b) =>
+        scores[a] > scores[b] ? a : b
+    );
+
+    const results = {
+        belief: {
+            title: "信念未认领型",
+            text: "你在显化中最大的卡点是信念松动。你想要，但没有真正认领。"
+        },
+        anxiety: {
+            title: "焦虑拉扯型",
+            text: "你过度关注结果，焦虑强化了缺失感。"
+        },
+        action: {
+            title: "行动错位型",
+            text: "你相信显化，但行动尚未完全对齐。"
+        },
+        identity: {
+            title: "潜意识回避型",
+            text: "你在靠近升级时产生潜意识抗拒。"
+        }
+    };
+
+    document.getElementById("resultTitle").innerText = results[maxType].title;
+    document.getElementById("resultText").innerText = results[maxType].text;
+}
+
+</script>
+
+</body>
+</html>
