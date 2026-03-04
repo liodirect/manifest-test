@@ -1,34 +1,89 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <title>显化卡点测试</title>
 <style>
 body {
-    font-family: "PingFang SC", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
     background: #f6f4f1;
-    text-align: center;
-    padding: 30px;
+    margin: 0;
+    padding: 0;
 }
+
 .container {
-    max-width: 600px;
+    max-width: 480px;
     margin: auto;
+    padding: 20px;
 }
+
+h1 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
 button {
-    display: block;
-    margin: 10px auto;
-    padding: 12px 20px;
+    width: 100%;
+    margin: 10px 0;
+    padding: 14px;
     border: none;
     background: #6b5b95;
     color: white;
-    border-radius: 8px;
-    cursor: pointer;
+    border-radius: 12px;
+    font-size: 15px;
 }
+
 button:hover {
-    opacity: 0.8;
+    opacity: 0.9;
 }
+
 .hidden {
     display: none;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    margin: 20px 0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.big-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.big-percent {
+    font-size: 28px;
+    font-weight: bold;
+    color: #6b5b95;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-top: 6px;
+}
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.small-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #444;
+}
+
+canvas {
+    max-width: 100%;
+}
+
+.download-btn {
+    background: black;
 }
 </style>
 </head>
@@ -50,12 +105,49 @@ button:hover {
 </div>
 
 <div id="result" class="hidden">
-    <h2 id="resultTitle"></h2>
-    <p id="resultText"></p>
-</div>
+
+    <!-- 1 主类型区 -->
+    <div class="card">
+        <div id="mainType" class="big-title"></div>
+        <div id="mainPercent" class="big-percent"></div>
+        <div id="subTypes" class="small-text"></div>
+    </div>
+
+    <!-- 2 雷达图 -->
+    <div class="card">
+        <div class="section-title">显化结构图</div>
+        <canvas id="radarChart"></canvas>
+    </div>
+
+    <!-- 维度解释 -->
+    <div class="card">
+        <div class="section-title">六维含义说明</div>
+        <div class="small-text">
+            信念稳定度：你是否真正认领目标<br><br>
+            情绪波动度：是否放大“还没有”的感觉<br><br>
+            行动对齐度：现实动作是否匹配目标<br><br>
+            身份承载力：是否允许自己升级<br><br>
+            控制执念度：是否强行掌控结果<br><br>
+            潜意识抗拒度：是否在关键时刻回避
+        </div>
+    </div>
+
+    <!-- 3 行动建议 -->
+    <div class="card">
+        <div class="section-title">专属行动建议</div>
+        <div id="actionAdvice" class="small-text"></div>
+    </div>
+
+    <!-- 4 结语 + 下载 -->
+    <div class="card">
+        <div class="small-text">
+            显化不是许愿，而是结构调整。  
+            当结构改变，现实会慢慢跟上。
+        </div>
+        <button class="download-btn" onclick="downloadResult()">下载结果图片</button>
+    </div>
 
 </div>
-
 <script>
 
 const questions = [
@@ -154,7 +246,15 @@ function showResult() {
     const maxType = Object.keys(scores).reduce((a, b) =>
         scores[a] > scores[b] ? a : b
     );
+const sorted = Object.keys(scores)
+    .sort((a,b) => scores[b] - scores[a]);
 
+const main = sorted[0];
+const second = sorted[1];
+const third = sorted[2];
+
+const total = Object.values(scores).reduce((a,b)=>a+b,0);
+const mainPercent = Math.round((scores[main] / total) * 100);
     const results = {
     belief: {
         title: "信念未认领型",
@@ -182,20 +282,20 @@ function showResult() {
     }
 };
 
-    document.getElementById("resultTitle").innerText = results[maxType].title;
+document.getElementById("mainType").innerText =
+    results[main].title;
 
-document.getElementById("resultText").innerHTML = `
-<p><strong>核心阻力：</strong><br>${results[maxType].core}</p>
-<br>
-<p><strong>显化误区：</strong><br>${results[maxType].mistake}</p>
-<br>
-<p><strong>专属行动建议：</strong><br>${results[maxType].action}</p>
-`;
-// 创建雷达图canvas
-const canvas = document.createElement("canvas");
-canvas.id = "radarChart";
-canvas.style.marginTop = "30px";
-document.getElementById("result").appendChild(canvas);
+document.getElementById("mainPercent").innerText =
+    "阻力指数 " + mainPercent + "%";
+
+document.getElementById("subTypes").innerHTML =
+    "你也可能是：" +
+    results[second].title +
+    (scores[third] > 0 ? " / " + results[third].title : "");
+
+document.getElementById("actionAdvice").innerHTML =
+    results[main].action;
+
 
 // 根据得分生成雷达数据
 const ctx = canvas.getContext("2d");
@@ -236,8 +336,16 @@ new Chart(ctx, {
 }
 
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+function downloadResult() {
+    html2canvas(document.getElementById("result")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "显化结果.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
 
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </html>
