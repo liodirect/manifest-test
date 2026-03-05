@@ -298,29 +298,30 @@ document.getElementById("actionAdvice").innerHTML =
 
 
 // 根据得分生成雷达数据
+const canvas = document.getElementById("radarChart");
 const ctx = canvas.getContext("2d");
 
 new Chart(ctx, {
     type: 'radar',
     data: {
         labels: [
-    '信念稳定度',
-    '情绪波动度',
-    '行动对齐度',
-    '身份承载力',
-    '控制执念度',
-    '潜意识抗拒度'
-],
+            '信念稳定度',
+            '情绪波动度',
+            '行动对齐度',
+            '身份承载力',
+            '控制执念度',
+            '潜意识抗拒度'
+        ],
         datasets: [{
             label: '显化阻力指数',
             data: [
-    (scores.belief / 4) * 100,
-    (scores.anxiety / 4) * 100,
-    (scores.action / 4) * 100,
-    (scores.identity / 4) * 100,
-    (scores.control / 4) * 100,
-    (scores.resistance / 4) * 100
-]
+                (scores.belief / 4) * 100,
+                (scores.anxiety / 4) * 100,
+                (scores.action / 4) * 100,
+                (scores.identity / 4) * 100,
+                (scores.control / 4) * 100,
+                (scores.resistance / 4) * 100
+            ]
         }]
     },
     options: {
@@ -333,9 +334,7 @@ new Chart(ctx, {
         }
     }
 });
-}
 
-</script>
 function downloadResult() {
     html2canvas(document.getElementById("result")).then(canvas => {
         const link = document.createElement("a");
@@ -345,7 +344,10 @@ function downloadResult() {
     });
 }
 
-</body>
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+</body>
 </html>
