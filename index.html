@@ -254,7 +254,7 @@ const second = sorted[1];
 const third = sorted[2];
 
 const total = Object.values(scores).reduce((a,b)=>a+b,0);
-const mainPercent = Math.round((scores[main] / total) * 100);
+const mainPercent = total === 0 ? 0 : Math.round((scores[main] / total) * 100);
     const results = {
     belief: {
         title: "信念未认领型",
@@ -334,7 +334,7 @@ new Chart(ctx, {
         }
     }
 });
-
+}
 function downloadResult() {
     html2canvas(document.getElementById("result")).then(canvas => {
         const link = document.createElement("a");
