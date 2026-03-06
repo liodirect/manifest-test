@@ -18,6 +18,19 @@ body {
     padding: 20px;
 }
 
+canvas{
+max-width:100%;
+margin-top:10px;
+margin-bottom:10px;
+}
+
+.small-text{
+font-size:14px;
+line-height:1.6;
+color:#444;
+margin-bottom:12px;
+}
+
 h1 {
     font-size: 22px;
     margin-bottom: 20px;
@@ -256,30 +269,43 @@ const third = sorted[2];
 const total = Object.values(scores).reduce((a,b)=>a+b,0);
 const mainPercent = total === 0 ? 0 : Math.round((scores[main] / total) * 100);
     const results = {
-    belief: {
-        title: "信念未认领型",
-        core: "你想要结果，但内在没有真正“认领”它。你更像是在试试看，而不是已经决定。",
-        mistake: "显化不是许愿，而是站位。如果你还在犹豫，你的行动就会替你犹豫。",
-        action: "连续7天写下：'我已经是能拥有这件事的人。' 并每天做一个微小但具体的现实动作去靠近它。"
-    },
-    anxiety: {
-        title: "焦虑拉扯型",
-        core: "你太在意结果是否发生，反而放大了“还没有”的感受。",
-        mistake: "当注意力长期停留在缺失感，潜意识会默认你仍处于匮乏状态。",
-        action: "每天固定10分钟，只允许自己想象成功后的稳定状态，而不是成功瞬间。训练稳定感，而非高潮感。"
-    },
-    action: {
-        title: "行动错位型",
-        core: "你相信显化，但现实行动与目标还没有完全对齐。",
-        mistake: "显化不是只靠内在感受，它需要现实动作作为确认信号。",
-        action: "列出一个你拖延的关键动作，48小时内完成它。哪怕完成60%。"
-    },
-    identity: {
-    title: "身份承载不足型",
-        core: "当你真的接近升级时，潜意识开始自我保护。",
-        mistake: "你并不是做不到，而是担心承担更大的责任或曝光。",
-        action: "写下：'如果这件事真的成功，我最害怕的是什么？' 然后逐条拆解它。"
-    }
+
+belief: {
+title: "信念未认领型",
+core: "你想要结果，但内在没有真正认领它。",
+action: "连续7天写下：我已经是能拥有这件事的人，并做一个现实行动。"
+},
+
+anxiety: {
+title: "焦虑拉扯型",
+core: "你太关注结果是否发生。",
+action: "每天10分钟想象成功后的稳定生活，而不是成功瞬间。"
+},
+
+action: {
+title: "行动错位型",
+core: "你的现实行动还没有完全对齐目标。",
+action: "48小时内完成一个拖延已久的关键动作。"
+},
+
+identity: {
+title: "身份承载不足型",
+core: "潜意识担心升级后的责任。",
+action: "写下成功后你最害怕的三件事，并拆解它们。"
+},
+
+control: {
+title: "控制执念型",
+core: "你太想控制事情如何发生。",
+action: "练习设定目标后不再反复检查进度，把注意力放回日常行动。"
+},
+
+resistance: {
+title: "潜意识回避型",
+core: "在关键时刻，你会下意识拖延或绕开机会。",
+action: "当出现关键机会时，要求自己在24小时内做出一个回应。"
+}
+
 };
 
 document.getElementById("mainType").innerText =
@@ -315,12 +341,12 @@ new Chart(ctx, {
         datasets: [{
             label: '显化阻力指数',
             data: [
-                (scores.belief / 4) * 100,
-                (scores.anxiety / 4) * 100,
-                (scores.action / 4) * 100,
-                (scores.identity / 4) * 100,
-                (scores.control / 4) * 100,
-                (scores.resistance / 4) * 100
+                (scores.belief / questions.length / 2) * 100,
+                (scores.anxiety / questions.length / 2) * 100,
+                (scores.action / questions.length / 2) * 100,
+                (scores.identity / questions.length / 2) * 100,
+                (scores.control / questions.length / 2) * 100,
+                (scores.resistance / questions.length / 2) * 100
             ]
         }]
     },
@@ -336,12 +362,21 @@ new Chart(ctx, {
 });
 }
 function downloadResult() {
-    html2canvas(document.getElementById("result")).then(canvas => {
-        const link = document.createElement("a");
-        link.download = "显化结果.png";
-        link.href = canvas.toDataURL();
-        link.click();
-    });
+
+const btn = document.querySelector(".download-btn");
+btn.style.display = "none";
+
+html2canvas(document.getElementById("result")).then(canvas => {
+
+const link = document.createElement("a");
+link.download = "显化结果.png";
+link.href = canvas.toDataURL();
+link.click();
+
+btn.style.display = "block";
+
+});
+
 }
 
 </script>
