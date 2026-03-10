@@ -435,9 +435,9 @@ function downloadResult() {
 const btn = document.querySelector(".download-btn");
 btn.style.display = "none";
 
-html2canvas(document.getElementById("result"),{
-scale:2,
-backgroundColor:"#ffffff"
+html2canvas(document.getElementById("result"), {
+    scale: 2,
+    backgroundColor: "#ffffff"
 }).then(canvas => {
 
 const link = document.createElement("a");
