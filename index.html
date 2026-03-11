@@ -159,6 +159,10 @@ canvas{
     margin-top:15px;
     margin-bottom:10px;
 }
+
+function scaleScore(score, maxScore = 12) {
+    return 30 + (score / maxScore) * 55;
+}
 </style>
 </head>
 
@@ -623,17 +627,24 @@ new Chart(ctx, {
                 (scores.identity / questions.length / 2) * 100,
                 (scores.control / questions.length / 2) * 100,
                 (scores.resistance / questions.length / 2) * 100
-            ]
+            ],
+backgroundColor: "rgba(54,162,235,0.35)",
+borderColor: "rgba(54,162,235,1)",
+borderWidth: 2,
+pointBackgroundColor: "rgba(54,162,235,1)"
         }]
     },
     options: {
         responsive: true,
-        scales: {
-            r: {
-                min: 0,
-                max: 100
-            }
-        }
+scales: {
+r: {
+min: 20,
+max: 90,
+ticks: {
+display: false
+}
+}
+}
     }
 });
 }
