@@ -377,13 +377,13 @@ action: "当出现关键机会时，要求自己在24小时内做出一个回应
 
 };
 
-document.getElementById("mainType").innerText =
-    results[main].title;
+document.getElementById("resultType").innerText =
+results[main].title;
 
-document.getElementById("mainPercent").innerText =
-    "阻力指数 " + mainPercent + "%";
+document.getElementById("resultScore").innerText =
+mainPercent + "%";
 
-document.getElementById("subTypes").innerHTML =
+document.getElementById("subType").innerHTML =
     "你也可能是：" +
     results[second].title +
     (scores[third] > 0 ? " / " + results[third].title : "");
