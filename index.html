@@ -161,7 +161,12 @@ canvas{
 }
 
 function scaleScore(score, maxScore = 12) {
-    return 30 + (score / maxScore) * 55;
+    return 45 + (score / maxScore) * 50;
+}
+
+function calculateResistance(totalScore) {
+    const maxScore = 72;
+    return Math.round(30 + (totalScore / maxScore) * 50);
 }
 </style>
 </head>
@@ -638,10 +643,10 @@ pointBackgroundColor: "rgba(54,162,235,1)"
         responsive: true,
 scales: {
 r: {
-min: 20,
-max: 90,
+min: 40,
+max: 100,
 ticks: {
-display: false
+display:false
 }
 }
 }
