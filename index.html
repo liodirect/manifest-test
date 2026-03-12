@@ -626,31 +626,49 @@ new Chart(ctx, {
         datasets: [{
             label: '显化阻力指数',
             data: [
-                (scores.belief / questions.length / 2) * 100,
-                (scores.anxiety / questions.length / 2) * 100,
-                (scores.action / questions.length / 2) * 100,
-                (scores.identity / questions.length / 2) * 100,
-                (scores.control / questions.length / 2) * 100,
-                (scores.resistance / questions.length / 2) * 100
-            ],
+    (scores.belief / 12) * 100,
+    (scores.anxiety / 12) * 100,
+    (scores.action / 12) * 100,
+    (scores.identity / 12) * 100,
+    (scores.control / 12) * 100,
+    (scores.resistance / 12) * 100
+],
 backgroundColor: "rgba(54,162,235,0.35)",
 borderColor: "rgba(54,162,235,1)",
 borderWidth: 2,
 pointBackgroundColor: "rgba(54,162,235,1)"
         }]
     },
-    options: {
-        responsive: true,
-scales: {
-r: {
-min: 40,
-max: 100,
-ticks: {
-display:false
-}
-}
-}
+options: {
+    responsive: true,
+
+    plugins: {
+        tooltip: {
+            callbacks: {
+                label: function(context) {
+                    return context.label + ": " + Math.round(context.raw) + "%";
+                }
+            }
+        }
+    },
+
+    scales: {
+        r: {
+            min: 30,
+            max: 100,
+            ticks: {
+                display: false
+            },
+            pointLabels: {
+                font: {
+                    size: 14
+                },
+                padding: 10,
+                centerPointLabels: true
+            }
+        }
     }
+}
 });
 }
 function downloadResult() {
