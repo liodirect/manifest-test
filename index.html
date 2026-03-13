@@ -609,11 +609,11 @@ document.getElementById("actionAdvice").innerHTML =
 
 
 // 根据得分生成雷达数据
-const canvas = document.getElementById("radarChart");
-const ctx = canvas.getContext("2d");
+const ctx = document.getElementById('radarChart').getContext('2d');
 
 new Chart(ctx, {
     type: 'radar',
+
     data: {
         labels: [
             '信念稳定度',
@@ -623,8 +623,10 @@ new Chart(ctx, {
             '控制执念度',
             '潜意识抗拒度'
         ],
+
         datasets: [{
             label: '显化阻力指数',
+
             data: [
                 (scores.belief / 12) * 100,
                 (scores.anxiety / 12) * 100,
@@ -633,10 +635,15 @@ new Chart(ctx, {
                 (scores.control / 12) * 100,
                 (scores.resistance / 12) * 100
             ],
+
             backgroundColor: "rgba(54,162,235,0.35)",
             borderColor: "rgba(54,162,235,1)",
             borderWidth: 2,
-            pointBackgroundColor: "rgba(54,162,235,1)"
+
+            pointBackgroundColor: "rgba(54,162,235,1)",
+            pointBorderColor: "#fff",
+            pointRadius: 4,
+            pointHoverRadius: 6
         }]
     },
 
@@ -644,42 +651,77 @@ new Chart(ctx, {
 
         responsive: true,
 
-        layout:{
-            padding:30
+        layout: {
+            padding: 40
         },
 
         plugins: {
+
+            legend: {
+                position: 'top'
+            },
+
             tooltip: {
+
                 callbacks: {
-                    title: function(context){
+
+                    title: function(context) {
+
+                        // 显示当前尖端的指标名称
                         return context[0].label;
+
                     },
-                    label: function(context){
-                        return Math.round(context.raw) + "%";
+
+                    label: function(context) {
+
+                        // 显示当前蓝点的数值
+                        return "显化阻力：" + Math.round(context.raw) + "%";
+
                     }
+
                 }
+
             }
+
         },
 
-        scales:{
-            r:{
-                startAngle:-90,
-                min:30,
-                max:100,
-                ticks:{
-                    display:false
+        scales: {
+
+            r: {
+
+                beginAtZero: false,
+
+                min: 30,
+                max: 100,
+
+                grid: {
+                    circular: false
                 },
-                pointLabels:{
-                    font:{
-                        size:14
-                    }
+
+                angleLines: {
+                    color: "rgba(0,0,0,0.15)"
+                },
+
+                ticks: {
+                    display: false
+                },
+
+                pointLabels: {
+
+                    font: {
+                        size: 14
+                    },
+
+                    color: "#555"
                 }
+
             }
+
         }
 
-    }  // ← 这一行是关闭 options
+    }
 
-});   // ← 这一行才是关闭 Chart
+});
 function downloadResult() {
 
 const btn = document.querySelector(".download-btn");
