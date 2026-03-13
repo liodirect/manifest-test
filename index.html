@@ -640,34 +640,35 @@ pointBackgroundColor: "rgba(54,162,235,1)"
         }]
     },
 options: {
-    responsive: true,
 
-    plugins: {
-        tooltip: {
-            callbacks: {
-                label: function(context) {
-                    return context.label + ": " + Math.round(context.raw) + "%";
-                }
-            }
-        }
+responsive: true,
+
+layout:{
+padding:30
+},
+    
+plugins: {
+tooltip: {
+callbacks: {
+title: function(context){
+return context[0].label;
+},
+label: function(context){
+return Math.round(context.raw) + "%";
+}
+}
+}
     },
 
-    scales: {
-        r: {
-            min: 30,
-            max: 100,
-            ticks: {
-                display: false
-            },
-            pointLabels: {
-                font: {
-                    size: 14
-                },
-                padding: 10,
-                centerPointLabels: true
-            }
-        }
-    }
+scales:{
+r:{
+min:30,
+max:100,
+ticks:{display:false},
+pointLabels:{
+font:{size:14}
+}
+}
 }
 });
 }
