@@ -626,52 +626,60 @@ new Chart(ctx, {
         datasets: [{
             label: '显化阻力指数',
             data: [
-    (scores.belief / 12) * 100,
-    (scores.anxiety / 12) * 100,
-    (scores.action / 12) * 100,
-    (scores.identity / 12) * 100,
-    (scores.control / 12) * 100,
-    (scores.resistance / 12) * 100
-],
-backgroundColor: "rgba(54,162,235,0.35)",
-borderColor: "rgba(54,162,235,1)",
-borderWidth: 2,
-pointBackgroundColor: "rgba(54,162,235,1)"
+                (scores.belief / 12) * 100,
+                (scores.anxiety / 12) * 100,
+                (scores.action / 12) * 100,
+                (scores.identity / 12) * 100,
+                (scores.control / 12) * 100,
+                (scores.resistance / 12) * 100
+            ],
+            backgroundColor: "rgba(54,162,235,0.35)",
+            borderColor: "rgba(54,162,235,1)",
+            borderWidth: 2,
+            pointBackgroundColor: "rgba(54,162,235,1)"
         }]
     },
-options: {
 
-responsive: true,
+    options: {
 
-layout:{
-padding:30
-},
-    
-plugins: {
-tooltip: {
-callbacks: {
-title: function(context){
-return context[0].label;
-},
-label: function(context){
-return Math.round(context.raw) + "%";
-}
-}
-}
-    },
+        responsive: true,
 
-scales:{
-r:{
-min:30,
-max:100,
-ticks:{display:false},
-pointLabels:{
-font:{size:14}
-}
-}
-}
-});
-}
+        layout:{
+            padding:30
+        },
+
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    title: function(context){
+                        return context[0].label;
+                    },
+                    label: function(context){
+                        return Math.round(context.raw) + "%";
+                    }
+                }
+            }
+        },
+
+        scales:{
+            r:{
+                startAngle:-90,
+                min:30,
+                max:100,
+                ticks:{
+                    display:false
+                },
+                pointLabels:{
+                    font:{
+                        size:14
+                    }
+                }
+            }
+        }
+
+    }  // ← 这一行是关闭 options
+
+});   // ← 这一行才是关闭 Chart
 function downloadResult() {
 
 const btn = document.querySelector(".download-btn");
