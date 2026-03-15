@@ -245,6 +245,17 @@ function calculateResistance(totalScore) {
 
 <script>
 
+// 分数拉高算法
+function scaleScore(score, maxScore = 12) {
+    return 45 + (score / maxScore) * 50;
+}
+
+// 总阻力指数
+function calculateResistance(totalScore) {
+    const maxScore = 72;
+    return Math.round(30 + (totalScore / maxScore) * 50);
+}
+
 const questions = [
 
 /* 第一阶段：信念层 */
@@ -556,7 +567,12 @@ const second = sorted[1];
 const third = sorted[2];
 
 const total = Object.values(scores).reduce((a,b)=>a+b,0);
-const mainPercent = total === 0 ? 0 : Math.round((scores[main] / total) * 100);
+
+// 主卡点比例
+const mainPercent = scaleScore(scores[main]);
+
+// 总阻力指数
+const resistanceScore = calculateResistance(total);
     const results = {
 
 belief: {
@@ -601,7 +617,7 @@ document.getElementById("resultType").innerText =
 results[main].title;
 
 document.getElementById("resultScore").innerText =
-mainPercent + "%";
+resistanceScore + "%";
 
 document.getElementById("subType").innerHTML =
     "你也可能是：" +
@@ -726,6 +742,8 @@ new Chart(ctx, {
     }
 
 });
+}
+    
 function downloadResult() {
 
 const btn = document.querySelector(".download-btn");
