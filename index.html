@@ -141,8 +141,9 @@ margin-top:10px;
 
 canvas{
     width:100% !important;
-    max-width:420px;
-    margin:30px auto;
+    max-width:100%;
+    height:420px !important;
+    margin:10px auto;
     display:block;
 }
 
@@ -623,7 +624,11 @@ document.getElementById("actionAdvice").innerHTML =
 // 根据得分生成雷达数据
 const ctx = document.getElementById('radarChart').getContext('2d');
 
-new Chart(ctx, {
+if (window.myRadar) {
+    window.myRadar.destroy();
+}
+
+window.myRadar = new Chart(ctx, {
     type: 'radar',
 
     data: {
@@ -660,12 +665,11 @@ new Chart(ctx, {
     },
 
     options: {
-
-        responsive: true,
-
-        layout: {
-            padding: 40
-        },
+    responsive: true,
+    maintainAspectRatio: false,   // ⭐关键
+    layout: {
+        padding: 10              // ⭐减少留白
+    },
 
         plugins: {
 
@@ -697,39 +701,41 @@ new Chart(ctx, {
 
         },
 
-        scales: {
+scales: {
 
-            r: {
+    r: {
 
-                beginAtZero: false,
+        startAngle: -90,   // ⭐关键：让“信念稳定度”在正上方
 
-                min: 30,
-                max: 100,
+        beginAtZero: false,
 
-                grid: {
-                    circular: false
-                },
+        min: 30,
+        max: 100,
 
-                angleLines: {
-                    color: "rgba(0,0,0,0.15)"
-                },
+        grid: {
+            circular: false
+        },
 
-                ticks: {
-                    display: false
-                },
+        angleLines: {
+            color: "rgba(0,0,0,0.15)"
+        },
 
-                pointLabels: {
+        ticks: {
+            display: false
+        },
 
-                    font: {
-                        size: 14
-                    },
+        pointLabels: {
 
-                    color: "#555"
-                }
+            font: {
+                size: 14
+            },
 
-            }
-
+            color: "#555"
         }
+
+    }
+
+},
 
     }
 
