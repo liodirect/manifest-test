@@ -240,7 +240,7 @@ canvas{
 
 // 分数拉高算法
 function scaleScore(score, maxScore = 12) {
-    return 45 + (score / maxScore) * 50;
+    return 60 + (score / maxScore) * 40;
 }
 
 // 总阻力指数
@@ -653,14 +653,16 @@ window.myRadar = new Chart(ctx, {
                 (scores.resistance / 12) * 100
             ],
 
-            backgroundColor: "rgba(54,162,235,0.35)",
-            borderColor: "rgba(54,162,235,1)",
-            borderWidth: 2,
+    backgroundColor: "rgba(54,162,235,0.45)",  // 更实
+    borderColor: "rgba(54,162,235,1)",
+    borderWidth: 3,                            // 更粗
 
-            pointBackgroundColor: "rgba(54,162,235,1)",
-            pointBorderColor: "#fff",
-            pointRadius: 4,
-            pointHoverRadius: 6
+    pointBackgroundColor: "rgba(54,162,235,1)",
+    pointBorderColor: "#fff",
+    pointRadius: 6,                            // ⭐放大点
+    pointHoverRadius: 8,
+
+    fill: true                                 // ⭐确保填充
         }]
     },
 
@@ -705,11 +707,13 @@ scales: {
 
     r: {
 
-        startAngle: -90,   // ⭐关键：让“信念稳定度”在正上方
+        angleLines: {
+    display: true
+},
 
         beginAtZero: false,
 
-        min: 30,
+        min: 0,
         max: 100,
 
         grid: {
