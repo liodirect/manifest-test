@@ -161,6 +161,28 @@ canvas{
     margin-bottom:10px;
 }
 
+    /* ===== 手机端适配 ===== */
+@media (max-width: 480px) {
+
+    /* 雷达图放大 */
+    canvas {
+        height: 320px !important;
+        max-width: 100% !important;
+    }
+
+    /* 六维文字缩小 */
+    canvas + * , /* 兼容 */
+    .chartjs-render-monitor + * {
+        font-size: 12px;
+    }
+
+    /* Chart.js 雷达图标签 */
+    #radarChart {
+        font-size: 12px !important;
+    }
+
+}
+
 </style>
 </head>
 
