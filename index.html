@@ -166,7 +166,8 @@ canvas{
 
     /* 雷达图放大 */
     canvas {
-        height: 320px !important;
+        touch-action: auto;
+        height: 380px !important;
         max-width: 100% !important;
     }
 
@@ -653,7 +654,8 @@ if (window.myRadar) {
 window.myRadar = new Chart(ctx, {
     type: 'radar',
 
-    data: {
+    data: {pointHitRadius: 20,   // ⭐点击范围扩大
+pointRadius: 6,
         labels: [
             '信念稳定度',
             '情绪波动度',
@@ -695,6 +697,10 @@ window.myRadar = new Chart(ctx, {
         padding: 10              // ⭐减少留白
     },
 
+        interaction: {
+    mode: 'nearest',
+    intersect: true
+},
         plugins: {
 
             legend: {
